@@ -1349,33 +1349,32 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 // we don't check GUID or password for bots and local client
 // NOTE: local client <-> "ip" "localhost"
 //   this means this client is not running in our current process
-	if ( !isBot && !strequals(value, "localhost") ) {
-		// check for a password
-		value = Info_ValueForKey (userinfo, "password");
-		if ( g_password.string[0] && !Q_strequal( g_password.string, "none" ) &&
-			!strequals( g_password.string, value)) {
-			return "Invalid password";
-		}
-		for( i = 0; i < sizeof( client->pers.guid ) - 1 &&
-			isxdigit( client->pers.guid[ i ] ); i++ ) {};
-		if( i < sizeof( client->pers.guid ) - 1 )
-			return "Invalid GUID";
+	// if ( !isBot && !strequals(value, "localhost") ) {
+	// 	// check for a password
+	// 	value = Info_ValueForKey (userinfo, "password");
+	// 	if ( g_password.string[0] && !Q_strequal( g_password.string, "none" ) &&
+	// 		!strequals( g_password.string, value)) {
+	// 		return "Invalid password";
+	// 	}
+	// 	for( i = 0; i < sizeof( client->pers.guid ) - 1 &&
+	// 		isxdigit( client->pers.guid[ i ] ); i++ ) {};
+	// 	if( i < sizeof( client->pers.guid ) - 1 )
+	// 		return "Invalid GUID";
 
-		for( i = 0; i < level.maxclients; i++ ) {
+	// 	for( i = 0; i < level.maxclients; i++ ) {
 		
-			if( level.clients[ i ].pers.connected == CON_DISCONNECTED )
-				continue;
+	// 		if( level.clients[ i ].pers.connected == CON_DISCONNECTED )
+	// 			continue;
 
-			if( Q_strequal( client->pers.guid, level.clients[ i ].pers.guid ) ) {
-				if( !G_ClientIsLagging( level.clients + i ) ) {
-					trap_SendServerCommand( i, "cp \"Your GUID is not secure\"" );
-					return "Duplicate GUID";
-				}
-				trap_DropClient( i, "Ghost" );
-			}
-		}
-		 
-	}
+	// 		if( Q_strequal( client->pers.guid, level.clients[ i ].pers.guid ) ) {
+	// 			if( !G_ClientIsLagging( level.clients + i ) ) {
+	// 				trap_SendServerCommand( i, "cp \"Your GUID is not secure\"" );
+	// 				return "Duplicate GUID";
+	// 			}
+	// 			trap_DropClient( i, "Ghost" );
+	// 		}
+	// 	}
+	// }
 
 	//Check for local client
 	if( strequals( client->pers.ip, "localhost" ) ) {
